@@ -16,28 +16,78 @@ export default function Func(props) {
   );
 }
 
-// function reactMemoize(Component) {
+// from class
+export function memoize(fn) {
+  const cache = {};
 
-//   return MemoizedComponent() {
+  return function() {
+    const args = [...arguments];
+    console.log('args', args);
+    console.log('cache', cache);
+    const hash = hashArguments(args);
 
-//   }
-// }
+    if(cache.hasOwnProperty(hash)) return cache[hash];
 
-const prevProps = { title: 'a title', counter: 6 };
-const newProps = { title: 'another title', counter: 8 };
-
-function reactPropsEquality(prevProps, newProps) {
-
-  if(Object.keys(newProps).length !== Object.keys(prevProps).length) return false;
-
-  let equal = true;
-  Object.keys(newProps).forEach(key => {
-    if(!defaultEquality(newProps[key], prevProps[key])) { equal = false; }
-  });
-  return equal;
+    const result = fn.apply(null, args);
+    cache[hash] = result;
+    return result;
+  };
 }
 
-function defaultEquality(arg1, arg2) {
-  if(arg1 === arg2) return true;
-  return false;
+function hashArguments(args) {
+  return args.join('--');
+}
+
+export function reactMemoize(Component) {
+
+  let previousProps = null;
+  let previousRender = null;
+
+  return MemoizedComponent() {
+
+      const args = [...arguments];
+      const [props] = args;
+      return <Component {...props} />;
+
+      if (reactPropsEquality) return previous render
+      const render = <Component {...props} />;
+
+
+    if(reactPropsEquality(previousProps, Component.props)) return previousResults;
+
+    const result = Component.apply(null, Component.props);
+    let previousProps = Component.props;
+    let previousResult = result;
+
+    return result;
+  }
+
+}
+
+
+export function reactPropsEquality(prevProps, newProps) {
+
+  const prevLen = Object.keys(prevProps).length;
+  const newLen = Object.keys(newProps).length;
+
+  if(prevLen !== newLen) return false;
+
+  for(let i = 0; i < prevLen; i++) {
+    if(!defaultEquality(prevProps[i], newProps[i])) {
+      return false;
+    }
+  }
+  return true;
+
+  // This also works, but doesn't jump out of the loop early when false.
+  // let equal = true;
+  // Object.keys(newProps).forEach(key => {
+  //   if(!defaultEquality(newProps[key], prevProps[key])) { equal = false; }
+  // });
+  // return equal;
+}
+
+
+export function defaultEquality(arg1, arg2) {
+  return arg1 === arg2;
 }
