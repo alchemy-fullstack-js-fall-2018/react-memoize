@@ -1,0 +1,28 @@
+{
+  "name": "react-memoize",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acrankin/react-memoize.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acrankin/react-memoize/issues"
+  },
+  "homepage": "https://github.com/acrankin/react-memoize#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
