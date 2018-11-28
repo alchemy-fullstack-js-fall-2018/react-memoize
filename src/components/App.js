@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import Func from './Func';
+import { MemoizedFunc } from './Func';
 
 export default class App extends Component {
   state = {
@@ -15,7 +15,8 @@ export default class App extends Component {
     return (
       <Fragment>
         <input name="title" value={title} onChange={this.handleChange} />
-        <Func title="My Title" />
+        <MemoizedFunc title='hard-coded title' />
+        {/* <MemoizedFunc title={title} /> */}
       </Fragment>
     );
   }

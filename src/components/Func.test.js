@@ -2,7 +2,9 @@ import React from 'react';
 import {
   defaultEquality,
   reactPropsEquality,
-  memoize } from './Func';
+  memoize,
+  reactMemoize } from './Func';
+import { shallow } from 'enzyme';
 
 describe ('defaultEquality tests', () => {
 
@@ -58,6 +60,30 @@ describe ('memoize tests', () => {
     memoizedMock('a', 'b');
     memoizedMock('a', 'b');
     expect(mockFn.mock.calls.length).toBe(1);
+  });
+
+});
+
+describe ('reactMemoize tests', () => {
+
+  it('calls the function when the args have changed', ()=> {
+    const MockComponent = jest.fn();
+    const MemoizedComponent = reactMemoize(MockComponent);
+    const props1 = { a: 1, b: 2 };
+    const props2 = { a: 2, b: 3 };
+    MemoizedComponent(props1);
+    MemoizedComponent(props2);
+    expect(MockComponent.mock.calls.length).toBe(2);
+  });
+
+  it('does not call the function when the args haven\'t changed', ()=> {
+    const MockComponent = jest.fn();
+    const MemoizedComponent = reactMemoize(MockComponent);
+    const props = { a: 1, b: 2 };
+    const copyOfProps = { ...props }
+    MemoizedComponent(props);
+    MemoizedComponent(copyOfProps);
+    expect(MockComponent.mock.calls.length).toBe(1);
   });
 
 });
