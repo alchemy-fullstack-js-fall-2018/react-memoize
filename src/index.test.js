@@ -64,5 +64,5 @@ describe('reactPropsEquality', () => {
 
 describe('reactMemoize', () => {
 
-})
+});
 

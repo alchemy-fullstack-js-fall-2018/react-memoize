@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const defaultEquality = (itemA, itemB) => {
   if(!itemA || itemA.length !== itemB.length) {
     return false;
@@ -26,9 +24,7 @@ export const reactPropsEquality = ([newProps], [prevProps]) => {
   const newLength = Object.keys(newProps).length;
   const prevLength = Object.keys(prevProps).length;
 
-  if(prevLength !== newLength) {
-    return false;
-  }
+  if(prevLength !== newLength) return false;
   return Object.keys(prevProps).every(key => newProps[key] === prevProps[key]);
 };
 
