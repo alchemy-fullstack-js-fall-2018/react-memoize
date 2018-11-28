@@ -3,20 +3,21 @@ import React from 'react';
 
 export function memoize(fn, equality = defaultEquality) {
   let prevArgs;
+  let prevFn;
   const args = [...arguments];
   return function() {
     if(!equality(prevArgs, args)){
       prevArgs = args;
+      prevFn = fn;
       return fn;
     }
-
+    return prevFn;
   }
-
-  return args;
 };
 
 const add = (a, b) => { return a + b; }
-console.log(memoize(add(1, 2)))
+const memoizer = memoize(add(1,2))
+console.log(memoizer)
 
 // function reactMemoize(Component) {
 
@@ -47,6 +48,7 @@ function reactPropsEquality(prevProps, newProps) {
 // function reactMemo(Component, equality = reactPropsEquality) {
 //   let prevProps = null;
 //   let previousRender = null;
+//   return memoize(Component, equality);
 //   return function MemoizedComponent() {
 //     const args = [...arguments];
 //     const [props] = args;
