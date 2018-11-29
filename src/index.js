@@ -7,7 +7,7 @@ export default reactMemoize(function Func({ title }) {
   );
 });
 
-function reactMemoize(Component) {
+export function reactMemoize(Component) {
   let previousProps = null;
   let previousRender = null;
   
@@ -16,7 +16,7 @@ function reactMemoize(Component) {
     const [props] = args;
 
     if(reactPropsEquality(previousProps, props)) return previousRender;
-    const render = <Component {...props} />;
+    const render = Component(props);
     previousRender = render;
     previousProps = props;
     
@@ -24,7 +24,7 @@ function reactMemoize(Component) {
   };
 } 
 
-function reactPropsEquality(previousProps, props) {
+export function reactPropsEquality(previousProps, props) {
   console.log(previousProps);
   console.log('props', props);
   if(previousProps) {
