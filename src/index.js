@@ -2,34 +2,27 @@ import React from 'react';
 
 
 export function memoize(fn, equality = defaultEquality) {
-  let prevArgs;
-  let prevFn;
-  const args = [...arguments];
+  let prevArgs, result;
   return function() {
+    const args = [...arguments];
     if(!equality(prevArgs, args)){
       prevArgs = args;
-      prevFn = fn;
-      return fn;
+      result = fn(...args);
+      return result;
     }
-    return prevFn;
+    return result;
   }
 };
 
-const add = (a, b) => { return a + b; }
-const memoizer = memoize(add(1,2))
-console.log(memoizer)
 
-// function reactMemoize(Component) {
-
-// }
-
-export function defaultEquality(a, b) {
-  return a && (a === b);
+export function defaultEquality(prevArgs, newArgs) {
+  if(!prevArgs || !newArgs) return false;
+  return prevArgs === newArgs;
 };
 
-function reactPropsEquality(prevProps, newProps) {
+export function reactPropsEquality(prevProps, newProps) {
 
-  if(prevProps === null || newProps === null) return false;
+  if(!prevProps || !newProps) return false;
 
   const prevPropsKeys = Object.keys(prevProps);
   const newPropsKeys = Object.keys(newProps);
@@ -44,6 +37,10 @@ function reactPropsEquality(prevProps, newProps) {
   return true;
 };
 
+function reactMemo(Component) {
+  let prevProps = null;
+  let prevRender = null;
+}
 
 // function reactMemo(Component, equality = reactPropsEquality) {
 //   let prevProps = null;
