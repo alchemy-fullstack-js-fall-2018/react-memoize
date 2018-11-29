@@ -10,6 +10,7 @@ export const memoize = (fn, equality = defaultEquality) => {
   let result = null;
 
   return function() {
+    // console.log(arguments);
     const args = [...arguments];
     if(equality(prevArgs, args)) return result;
     prevArgs = args;
@@ -18,9 +19,10 @@ export const memoize = (fn, equality = defaultEquality) => {
 };
 
 
-export const reactPropsEquality = ([newProps], [prevProps]) => {
-  if(prevProps === null || newProps === null) return false;
-
+export const reactPropsEquality = (newArgs, prevArgs) => {
+  if(newArgs === null || prevArgs === null) return false;
+  const [newProps] = newArgs;
+  const [prevProps] = prevArgs;
   const newLength = Object.keys(newProps).length;
   const prevLength = Object.keys(prevProps).length;
 
