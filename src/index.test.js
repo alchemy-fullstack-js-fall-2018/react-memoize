@@ -69,11 +69,23 @@ describe('reactMemoize', () => {
     const props2 = { x: 1 };
 
     const mockFunc = reactMemoize(component);
-    console.log(mockFunc);
     mockFunc(props1);
     mockFunc(props2);
 
     expect(component.mock.calls.length).toBe(1);
+  });
+
+  it('rerenders the component when the props passed in are different', () => {
+    const component = jest.fn();
+    const props1 = { x: 1, y: 4 };
+    const props2 = { x: 1 };
+
+    const mockFunc = reactMemoize(component);
+
+    mockFunc(props1);
+    mockFunc(props2);
+
+    expect(component.mock.calls.length).toBe(2);
   });
 });
 
