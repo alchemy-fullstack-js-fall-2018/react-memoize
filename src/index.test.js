@@ -1,5 +1,5 @@
 import React from 'react';
-import { memoize, defaultEquality, reactPropsEquality } from './index';
+import { memoize, reactMemoize, defaultEquality, reactPropsEquality } from './index';
 
 describe('memoization', () => {
   describe('memoize function', () => {
@@ -38,6 +38,17 @@ describe('memoization', () => {
       const arg2 = { a: 1, b: 2 };
       const result = reactPropsEquality(arg1, arg2);
       expect(result).toBeTruthy();
+    })
+  })
+
+  describe('reactMemoize', () => {
+    it('returns a Component', () => {
+      const Component = function TestFunc() {
+        return(<h1>I am a test</h1>)
+      }
+
+      const result = reactMemoize(Component);
+      expect(typeof result).toEqual('function');
     })
   })
 })
