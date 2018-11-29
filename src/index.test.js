@@ -1,4 +1,3 @@
-import React from 'react';
 import { memoize, reactMemoize, defaultEquality, reactPropsEquality } from './index';
 
 describe('memoization', () => {
@@ -62,7 +61,7 @@ describe('memoization', () => {
   describe('reactMemoize', () => {
 
     it('returns a Component', () => {
-    const Component = jest.fn();
+      const Component = jest.fn();
       const result = reactMemoize(Component);
       expect(typeof result).toEqual('function');
     });
