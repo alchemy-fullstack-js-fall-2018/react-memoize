@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function reactMemoize(Component) {
+export function reactMemoize(Component) {
   let previousProps = null;
   let previousRender = null;
   return function MemoizedComponent() {
@@ -14,25 +14,29 @@ export default function reactMemoize(Component) {
     previousProps = props;
     return render;
   };
-};
+}
 
-export default function memoize(fn, equality) {
+export function memoize(fn, equality = defaultEquality) {
   const cache = {};
 
   return function() {
 
-  }
+  };
 }
 
-export default function defaultEquality(a, b) {
-  return a === b;
-};
+export function defaultEquality(previousArgs, newArgs) {
+  if(!previousArgs || !newArgs
+      || previousArgs.length !== newArgs.length) {
+    return false;
+  }
+  return previousArgs.every((arg, index) => arg === newArgs[index]);
+}
 
-export default function propsEquality(previousProps, props) {
+export function propsEquality(previousProps, props) {
   if(previousProps) {
-    return Object.keys(previousProps).every(propName => {
-      return previousProps[propName] === props[propName]
+    return Object.keys(previousProps).every(key => {
+      return previousProps[key] === props[key];;
     });
   }
   return false;
-};
+}
