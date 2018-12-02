@@ -1,29 +1,18 @@
-import React from 'react';
+export function memoize(fn, equality = defaultEquality) {
+  let previousArgs = null;
+  let result = null;
+  return function() {
+    const args = [...arguments];
 
-export function reactMemoize(Component) {
+    if(equality(previousArgs, args)) return result;
 
+    previousArgs = args;
+    return result = fn.apply(null, args);
+  };
 }
 
-// let previousProps = null;
-//   let previousRender = null;
-//   return function MemoizedComponent() {
-//     const args = [...arguments];
-//     const [props] = args;
-
-//     if(propsEquality(previousProps, props)) return previousRender;
-//     const render = <Component {...props} />;
-
-//     previousRender = render;
-//     previousProps = props;
-//     return render;
-//   };
-
-export function memoize(fn, equality = defaultEquality) {
-  const cache = {};
-
-  return function() {
-
-  };
+export function reactMemoize(Component, equality = reactPropsEquality) {
+  return memoize(Component, equality);
 }
 
 export function defaultEquality(previousArgs, newArgs) {
